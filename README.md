@@ -34,15 +34,16 @@ Key technical and professional skills demonstrated include:
 4. Configure separate databases for each microservice. <br />
 5. Implement API-based inter-service communication to synchronize data. <br />
 6. Test and document workflows under Agile iterations. <br />
+<img src="https://i.imgur.com/pNgg77x.png" width="40%" alt="Use Case Diagram"/><br/><br/>
 <br />
 
 <h2>Languages, Tools, and Environments Used</h2>
-- <b>Languages:</b> JavaScript / Python (for APIs), SQL  <br />
-- <b>Frameworks:</b>Flask (prototype services)  <br />
-- <b>Architecture:</b> RESTful Microservices  <br />
-- <b>Tools:</b> Git, GitHub, Postman, UML tools (draw.io / Lucidchart)  <br />
-- <b>DevOps:</b> CI/CD (GitHub Actions)  <br />
-- <b>AI Tools:</b> ChatGPT, Copilot (for rapid prototyping and UML generation)  <br />
+-Languages: Python (Flask APIs), JavaScript (frontend), SQL (SQLite/MySQL)<br />
+-Frameworks: Flask (backend services)<br />
+-Architecture: RESTful Microservices<br />
+-Tools: Git, GitHub, Postman, UML tools (draw.io / Lucidchart)<br />
+-DevOps: CI/CD (GitHub Actions, if used)<br />
+-AI Tools: ChatGPT, Copilot (for prototyping, code assistance, UML generation)<br />
 <br />
 
 <h2>Program Walk-through (Photos)</h2>
