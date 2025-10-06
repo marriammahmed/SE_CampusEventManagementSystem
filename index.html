@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Management System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 1000px;
+      margin: 20px;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    select, button, input[type="text"], input[type="date"], form {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    input[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table th, table td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    table th {
+      background-color: #f4f4f9;
+    }
+
+    button {
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .role-selection {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .form-section {
+      margin-top: 20px;
+    }
+
+    .form-section h3 {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Event Management System</h1>
+
+    <!-- Role Selection Section -->
+    <div id="roleSelectSection" class="role-selection">
+      <h2>Select Role:</h2>
+      <select id="roleSelect">
+        <option value="">Select Role</option>
+        <option value="admin">Admin</option>
+        <option value="user">User</option>
+      </select>
+      <button onclick="roleRedirect()">Go</button>
+    </div>
+
+    <!-- Admin Section -->
+    <div id="adminSection" class="hidden">
+      <h2>Admin Section</h2>
+      <button onclick="loadPending()">View Pending Events</button>
+      <ul id="pendingList"></ul>
+    </div>
+
+    <!-- User Section -->
+    <div id="userSection" class="hidden">
+      <h2>User Section</h2>
+      <button onclick="goCreateEvent()">Create Event</button>
+      <button onclick="goRegisterForEvent()">Register for Event</button>
+    </div>
+
+    <!-- Create Event Form -->
+    <div id="createEventForm" class="hidden form-section">
+      <h3>Create Event</h3>
+      <form id="eventForm">
+        <label for="eventName">Event Name:</label><br>
+        <input type="text" id="eventName" required><br>
+        <label for="eventDate">Event Date:</label><br>
+        <input type="date" id="eventDate" required><br>
+        <label for="eventLocation">Event Location:</label><br>
+        <input type="text" id="eventLocation" required><br><br>
+        <input type="submit" value="Submit Event">
+      </form>
+    </div>
+
+    <!-- Register for Event -->
+    <div id="registerEventSection" class="hidden form-section">
+      <h3>Register for Event</h3>
+      <button onclick="loadApproved()">Show Available Events</button>
+      <table id="eventsTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Location</th>
+            <th>Register</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function roleRedirect() {
+      const role = document.getElementById("roleSelect").value;
+      if (role === "admin") {
+        document.getElementById("adminSection").classList.remove("hidden");
+        document.getElementById("userSection").classList.add("hidden");
+      } else if (role === "user") {
+        document.getElementById("userSection").classList.remove("hidden");
+        document.getElementById("adminSection").classList.add("hidden");
+      } else {
+        alert("Please select a valid role.");
+      }
+    }
+
+    // For user: Go to create event page
+    function goCreateEvent() {
+      document.getElementById("createEventForm").classList.remove("hidden");
+      document.getElementById("userSection").classList.add("hidden");
+    }
+
+    // For user: Go to register for event page
+    function goRegisterForEvent() {
+      document.getElementById("registerEventSection").classList.remove("hidden");
+      document.getElementById("userSection").classList.add("hidden");
+    }
+
+    // Create Event (User)
+    document.getElementById("eventForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const data = {
+        name: document.getElementById("eventName").value,
+        date: document.getElementById("eventDate").value,
+        location: document.getElementById("eventLocation").value
+      };
+
+      const res = await fetch("http://localhost:5003/create_event", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      if (res.ok) {
+        alert("Event submitted for approval!");
+        document.getElementById("eventForm").reset();
+        document.getElementById("createEventForm").classList.add("hidden");
+        document.getElementById("userSection").classList.remove("hidden");
+      } else {
+        alert("Failed to create event.");
+      }
+    });
+
+    // Load Approved Events (User)
+    async function loadApproved() {
+      const res = await fetch("http://localhost:5003/available_events");
+      const data = await res.json();
+      const tableBody = document.querySelector("#eventsTable tbody");
+      tableBody.innerHTML = "";
+
+      data.events.forEach(ev => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${ev.name}</td><td>${ev.date}</td><td>${ev.location}</td>
+                        <td><button onclick="registerForEvent(${ev.event_id})">Register</button></td>`;
+        tableBody.appendChild(tr);
+      });
+    }
+
+    // Register for Event (User)
+    async function registerForEvent(eventId) {
+      const userId = 1;  // Simulating a user ID (should be dynamic based on logged-in user)
+      const res = await fetch("http://localhost:5003/register_for_event", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ eventId, userId })
+      });
+
+      if (res.ok) {
+        alert("Successfully registered for event!");
+      } else {
+        alert("Failed to register.");
+      }
+    }
+
+    // Load Pending Events (Admin)
+    async function loadPending() {
+      const res = await fetch("http://localhost:5003/pending_events");
+      const data = await res.json();
+      const list = document.getElementById("pendingList");
+      list.innerHTML = "";
+
+      data.events.forEach(ev => {
+        const li = document.createElement("li");
+        li.textContent = `${ev.name} on ${ev.date} at ${ev.location}`;
+        list.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>
