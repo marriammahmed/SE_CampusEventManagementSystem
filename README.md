@@ -38,7 +38,7 @@ Key technical and professional skills demonstrated include:
 
 <h2>Languages, Tools, and Environments Used</h2>
 - <b>Languages:</b> JavaScript / Python (for APIs), SQL  <br />
-- <b>Frameworks:</b> Node.js / Flask (prototype services)  <br />
+- <b>Frameworks:</b>Flask (prototype services)  <br />
 - <b>Architecture:</b> RESTful Microservices  <br />
 - <b>Tools:</b> Git, GitHub, Postman, UML tools (draw.io / Lucidchart)  <br />
 - <b>DevOps:</b> CI/CD (GitHub Actions)  <br />
@@ -49,8 +49,12 @@ Key technical and professional skills demonstrated include:
 <p align="center">
 Microservices Architecture: <br/>
 <img src="https://i.imgur.com/y4aRQT3.png" width="80%" alt="Use Case Diagram"/><br/><br/>
-Class Diagram: <br/>
-<img src="https://i.imgur.com/lbxk3uW.png" width="80%" alt="Class Diagram"/><br/><br/>
+Home Page: <br/>
+<img src="https://i.imgur.com/6lEcA8C.png" width="80%" alt="Class Diagram"/><br/><br/>
+User interface: <br/>
+<img src="https://i.imgur.com/Vu0fYz4.png" width="80%" alt="Class Diagram"/><br/><br/>
+Admin Inetrface: <br/>
+<img src="https://i.imgur.com/oDKgZdW.png width="80%" alt="Class Diagram"/><br/><br/>
 Event Creation Interface (prototype): <br/>
-<img src="https://i.imgur.com/mkRUHhE.png" width="80%" alt="Event Creation UI"/><br/><br/>
+<img src="https://i.imgur.com/aRVxVed.png" width="80%" alt="Event Creation UI"/><br/><br/>
 </p>
